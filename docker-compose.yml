@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  redis-master-rdb:
+    image: redis:latest
+    container_name: redis-rdb
+    volumes:
+      - ./redis_rdb.conf:/usr/local/etc/redis/redis.conf:rw
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6400:6379"
+
+  redis-master-aof:
+    image: redis:latest
+    container_name: redis-aof
+    volumes:
+      - ./redis_aof.conf:/usr/local/etc/redis/redis.conf:rw
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6401:6379"
+
+  redis-master-nopersist:
+    image: redis:latest
+    container_name: redis-nopersist
+    volumes:
+      - ./redis_nopersist.conf:/usr/local/etc/redis/redis.conf:rw
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6402:6379"
+  
+  beanstalkd:
+    image: schickling/beanstalkd
+    container_name: beanstalk
+    ports:
+      - 11300:11300
